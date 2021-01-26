@@ -37,7 +37,8 @@ class _quotepageState extends State<quotepage> {
                 child: TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: "Weight Per Pallet"),
+                      labelText: "Weight Per Pallet",
+                  ),
                 ),
               )),
           Expanded(

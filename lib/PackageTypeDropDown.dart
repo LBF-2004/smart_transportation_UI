@@ -15,26 +15,29 @@ class packagetypedropdown extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _packagetypedropdownState extends State<packagetypedropdown> {
-  String dropdownValue = 'One';
+  String dropdownValue = 'Pallet';
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: dropdownValue,
-      icon: Icon(Icons.arrow_downward),
+      icon: Container(
+        padding: EdgeInsets.only(left: 100),
+          child: Icon(Icons.arrow_downward)),
       iconSize: 24,
       elevation: 16,
-      style: TextStyle(color: Colors.deepPurple),
+      style: TextStyle(color: Colors.grey),
+
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Colors.grey,
       ),
       onChanged: (String newValue) {
         setState(() {
           dropdownValue = newValue;
         });
       },
-      items: <String>['One', 'Two', 'Free', 'Four']
+      items: <String>['Pallet', 'Pallet(48*40)']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,

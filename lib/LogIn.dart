@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'QuotePage.dart';
 import 'HomePage.dart';
+
 class login extends StatefulWidget {
   @override
   _loginState createState() => _loginState();
@@ -14,7 +15,7 @@ class _loginState extends State<login> {
       child: Column(
         children: <Widget>[
           Expanded(
-            flex: 25,
+            flex: 30,
             child: Container(
                 child: Padding(
               padding: const EdgeInsets.only(
@@ -26,7 +27,7 @@ class _loginState extends State<login> {
             )),
           ),
           Expanded(
-            flex: 20,
+            flex: 15,
             child: Container(
                 child: Column(
               children: <Widget>[
@@ -50,7 +51,7 @@ class _loginState extends State<login> {
             )),
           ),
           Expanded(
-            flex: 50,
+            flex: 45,
             child: Container(
                 padding: EdgeInsets.all(50),
                 child: Column(
@@ -75,16 +76,19 @@ class _loginState extends State<login> {
                 )),
           ),
           Expanded(
-              flex: 5,
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: RaisedButton(
-                  child: Text("Confirm"),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
-                  },
+              flex: 15,
+              child: Container(
+                padding: EdgeInsets.all(30),
+                child: SizedBox(
+                  width: 250,
+                  height: 200,
+                  child: RaisedButton(
+                    child: Text("Confirm"),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                  ),
                 ),
               ))
         ],
