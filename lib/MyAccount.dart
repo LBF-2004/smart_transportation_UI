@@ -7,7 +7,7 @@ class myaccount extends StatefulWidget {
 }
 
 class _myaccountState extends State<myaccount> {
-  final List<String> entries = <String>['A', 'B', 'C']; //define
+  final List<String> entries = <String>['Quote A', 'Quote B', 'Quote C']; //define
   final List<int> colorCodes = <int>[600, 500, 100]; //define
   @override
   Widget build(BuildContext context) {

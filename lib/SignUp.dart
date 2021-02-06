@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
-
+import 'LogIn.dart';
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
@@ -127,7 +127,7 @@ class _signupState extends State<signup> {
                             child: RaisedButton(
                               child: Text("Confirm"),
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder:(context) => LogoScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder:(context) => login()));
                               },
                             ),
                           )

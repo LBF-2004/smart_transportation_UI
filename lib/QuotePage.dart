@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'PackageTypeDropDown.dart';
+import 'HomePage.dart';
 
 class quotepage extends StatefulWidget {
   @override
@@ -89,12 +90,12 @@ class _quotepageState extends State<quotepage> {
                   height: 200,
                   child: RaisedButton(
                     child: Text("Confirm"),
-                /*   onPressed: () {
+                  onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ()));
-                    },*/
+                              builder: (context) => HomePage()));
+                    },
                   ),
                 )),
           ),
