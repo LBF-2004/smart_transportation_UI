@@ -1,6 +1,8 @@
+import 'package:app/SignUp.dart';
 import 'package:flutter/material.dart';
 import 'QuotePage.dart';
 import 'HomePage.dart';
+import 'package:http/http.dart' as http;
 
 class login extends StatefulWidget {
   @override
@@ -8,6 +10,10 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  String account = "NO";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +65,15 @@ class _loginState extends State<login> {
                     Expanded(
                       flex: 50,
                       child: TextField(
+                        controller: emailcontroller,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "User Name"),
+                            border: OutlineInputBorder(), labelText: "Email"),
                       ),
                     ),
                     Expanded(
                       flex: 50,
                       child: TextField(
+                        controller: passwordcontroller,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Password"),
@@ -85,8 +92,57 @@ class _loginState extends State<login> {
                   child: RaisedButton(
                     child: Text("Confirm"),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      http
+                          .get(
+                              "https://leoliaoproject.sunyu912.repl.co/login/" +
+                                  emailcontroller.text.toString() +
+                                  "/" +
+                                  passwordcontroller.text.toString())
+                          .then((res) {
+                        print("Request Success");
+                        print(res.body);
+                        account = res.body;
+                        if (account.contains("OK")) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()));
+                          // add else / both signup/ login
+                        }else {
+                          print ("Wrong Username or Password");
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Alert'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: <Widget>[
+                                      Text('Wrong Username or Password'),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Confirm'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
+
+                        }
+                      }).catchError((error) {
+                        print("Request failed!");
+                        print(error);
+                        // ...
+                      });
+                      ;
                     },
                   ),
                 ),

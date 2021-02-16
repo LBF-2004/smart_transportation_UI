@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'PackageTypeDropDown.dart';
 import 'HomePage.dart';
+import 'package:http/http.dart' as http;
+import 'DisplayPrice.dart';
 
 class portpage extends StatefulWidget {
   @override
   _portpageState createState() => _portpageState();
 }
 class _portpageState extends State<portpage> {
+  TextEditingController orgZipcodeController = TextEditingController();
+  TextEditingController desZipcodeController = TextEditingController();
+  TextEditingController numcodeController = TextEditingController();
+  String price = "not avialble ";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,16 +50,17 @@ class _portpageState extends State<portpage> {
                     ),
                   )),
               Expanded(
-                  flex: 12,
+                  flex: 11,
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: TextField(
+                      controller: numcodeController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(), labelText: "# of Pallet"),
                     ),
                   )),
               Expanded(
-                  flex: 12,
+                  flex: 11,
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: TextField(
@@ -62,43 +70,65 @@ class _portpageState extends State<portpage> {
                     ),
                   )),
               Expanded(
-                  flex: 12,
+                  flex: 11,
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: TextField(
+                      controller: orgZipcodeController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Pick up zip code"),
                     ),
                   )),
               Expanded(
-                  flex: 12,
+                  flex: 11,
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: TextField(
+                      controller: desZipcodeController,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Delivery zip code"),
                     ),
                   )),
               Expanded(
-                flex: 12,
+                flex: 11,
                 child: Container(
                     padding: EdgeInsets.all(10),
                     child: SizedBox(
                       width: 200,
-                      height: 200,
+                      // height: 200,
                       child: RaisedButton(
                         child: Text("Confirm"),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          print (desZipcodeController.text.toString());
+                          print (orgZipcodeController.text.toString());
+                          print (numcodeController.text.toString());
+                          http.get("https://leoliaoproject.sunyu912.repl.co/get_price/" +
+                              orgZipcodeController.text.toString() + "/" + desZipcodeController.text.toString() + "/" +
+                              numcodeController.text.toString())
+                              .then((res){
+                                print("Request success!");
+                                print (res.body);
+                                price = res.body;
+                                setState(() {
+                                });
+                          }).catchError((error){
+                            print("Request failed!");
+                            print(error);
+                          });
                         },
                       ),
                     )),
               ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  child: Text(
+                      price
+                  ),
+                ),
+              )
             ],
           ),
         ));
