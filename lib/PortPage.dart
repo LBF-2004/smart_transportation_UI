@@ -3,6 +3,7 @@ import 'PackageTypeDropDown.dart';
 import 'HomePage.dart';
 import 'package:http/http.dart' as http;
 import 'DisplayPrice.dart';
+import 'package:app/PickupCityDropdown.dart';
 
 class portpage extends StatefulWidget {
   @override
@@ -73,12 +74,7 @@ class _portpageState extends State<portpage> {
                   flex: 11,
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    child: TextField(
-                      controller: orgZipcodeController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Pick up zip code"),
-                    ),
+                    child: pickupcitydropdown()
                   )),
               Expanded(
                   flex: 11,
@@ -104,7 +100,7 @@ class _portpageState extends State<portpage> {
                           print (desZipcodeController.text.toString());
                           print (orgZipcodeController.text.toString());
                           print (numcodeController.text.toString());
-                          http.get("https://leoliaoproject.sunyu912.repl.co/get_price/" +
+                          http.get("http://10.0.2.2:5000/get_price/" +
                               orgZipcodeController.text.toString() + "/" + desZipcodeController.text.toString() + "/" +
                               numcodeController.text.toString())
                               .then((res){

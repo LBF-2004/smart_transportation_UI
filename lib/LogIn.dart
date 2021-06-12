@@ -1,8 +1,10 @@
+import 'package:app/AuthManager.dart';
 import 'package:app/SignUp.dart';
 import 'package:flutter/material.dart';
 import 'QuotePage.dart';
 import 'HomePage.dart';
 import 'package:http/http.dart' as http;
+import 'AuthManager.dart';
 
 class login extends StatefulWidget {
   @override
@@ -74,6 +76,7 @@ class _loginState extends State<login> {
                       flex: 50,
                       child: TextField(
                         controller: passwordcontroller,
+                        obscureText: true,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: "Password"),
@@ -94,7 +97,7 @@ class _loginState extends State<login> {
                     onPressed: () {
                       http
                           .get(
-                              "https://leoliaoproject.sunyu912.repl.co/login/" +
+                              "http://10.0.2.2:5000/login" +
                                   emailcontroller.text.toString() +
                                   "/" +
                                   passwordcontroller.text.toString())
@@ -103,6 +106,7 @@ class _loginState extends State<login> {
                         print(res.body);
                         account = res.body;
                         if (account.contains("OK")) {
+                          AuthManager.email = emailcontroller.text.toString();
                           Navigator.push(
                               context,
                               MaterialPageRoute(

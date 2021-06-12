@@ -8,8 +8,14 @@ class signup extends StatefulWidget {
 }
 
 class _signupState extends State<signup> {
-  TextEditingController emailcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+
   String account = "not avialble";
   @override
   Widget build(BuildContext context) {
@@ -27,37 +33,83 @@ class _signupState extends State<signup> {
                 child: Column(
                   children: <Widget>[
                     Expanded(
+                      flex: 15,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: TextField(
+                          controller: firstNameController,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: "Full Name"
+                            labelText: "First Name"
                           ),
                         )
                       )
                     ),
                     Expanded(
+                        flex: 15,
                       child: Container(
                           padding: EdgeInsets.all(10),
                           child: TextField(
-                            controller: emailcontroller,
+                            controller: lastNameController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: "Email"
+                                labelText: "Last Name"
                             ),
                           )
 
                       )
                     ),
                     Expanded(
+                      flex: 15,
                       child: Container(
                           padding: EdgeInsets.all(10),
                           child: TextField(
+                            controller: emailController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: "Phone Number"
+                                labelText: "Email"
                             ),
+                          )
+                      ),
+                    ),
+                    Expanded(
+                        flex: 15,
+                        child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: TextField(
+                              controller: phoneNumberController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Phone number"
+                              ),
+                            )
+                        )
+                    ),
+                    Expanded(
+                      flex: 15,
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: TextField(
+                            controller:passwordController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Create a Password"
+                            ),
+
+                          )
+                      ),
+                    ),
+                    Expanded(
+                      flex: 15,
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: TextField(
+                            controller:companyController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Company"
+                            ),
+
                           )
                       ),
                     ),
@@ -65,40 +117,17 @@ class _signupState extends State<signup> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 40,
-              child: Container(
-                padding: EdgeInsets.all(30),
-                child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Create a User Name"
-                          ),
-                        )
-                    )
-                  ),
-                  Expanded(
-                    child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          controller:passwordcontroller,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Create a Password"
-                          ),
-
-                        )
-                    ),
-                  ),
-                ],
-                ),
-              ),
-            ),
+//            Expanded(
+//
+//              child: Container(
+//                padding: EdgeInsets.all(30),
+//                child: Column(
+//                children: <Widget>[
+//
+//                ],
+//                ),
+//              ),
+//            ),
             Expanded(
               flex: 15,
               child:  Container(
@@ -135,7 +164,15 @@ class _signupState extends State<signup> {
                               child: Text("Confirm"),
                               onPressed: (){
                                // Navigator.push(context, MaterialPageRoute(builder:(context) => login()));
-                                http.get("https://leoliaoproject.sunyu912.repl.co/signup/" + emailcontroller.text.toString() + "/" + passwordcontroller.text.toString())
+                                http.get("http://10.0.2.2:5000/signup/"
+                                    + emailController.text.toString()
+                                    + "/" + passwordController.text.toString()
+                                    + "/" + firstNameController.text.toString()
+                                    + "/" + lastNameController.text.toString()
+                                    + "/" + phoneNumberController.text.toString()
+                                    + "/" + companyController.text.toString()
+                                )
+
                                 .then((res){
                                   print ("Request Success");
                                   print (res.body);
