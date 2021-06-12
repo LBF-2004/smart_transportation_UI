@@ -97,7 +97,7 @@ class _loginState extends State<login> {
                     onPressed: () {
                       http
                           .get(
-                              "http://10.0.2.2:5000/login" +
+                              "http://10.0.2.2:5000/login/" +
                                   emailcontroller.text.toString() +
                                   "/" +
                                   passwordcontroller.text.toString())
