@@ -3,6 +3,8 @@ import 'package:app/QuoteDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 
 final List<String> entries = <String>['A', 'B', 'C'];
 final List<int> colorCodes = <int>[600, 500, 100];
@@ -63,11 +65,13 @@ class _myaccountState extends State<myaccount> {
     return ListView.separated(
       padding: const EdgeInsets.all(8),
       itemCount: entries.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext context, int index)
+      {
+
         return Container(
           height: 50,
           child: RaisedButton(
-            child: Text("Quote"),
+            child: Text("Quote " + DateTime.fromMillisecondsSinceEpoch(int.parse(entries[index]['quoteId'])*1000).toString().substring(0, 16)),
             onPressed: () {
               showDialog(
                   context: context,
@@ -78,11 +82,11 @@ class _myaccountState extends State<myaccount> {
                         content: SingleChildScrollView(
                             child: ListBody(
                               children: [
-                                Text("Origin City: "),
-                                Text("Destination: "),
-                                Text("Container Count: "),
-                                Text("Item Description: "),
-                                Text("Result: ")
+                                Text("Origin City: " + entries[index]["org_city"]),
+                                Text("Destination: "+  entries[index]["des_city"]),
+                                Text("Container Count: " + entries[index]["container_count"]),
+                                Text("Item Description: " + entries[index]["item_description"]),
+                                Text("Result: " + entries[index]["result"].toString())
                               ],
                             )
                         )
