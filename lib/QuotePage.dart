@@ -8,6 +8,8 @@ import 'DisplayPrice.dart';
 import 'package:app/PickupCityDropdown.dart';
 import 'TestRadioTileList.dart';
 
+enum SingingCharacter {FTL, LTL, FCL}
+
 class quotepage extends StatefulWidget {
   @override
   _quotepageState createState() => _quotepageState();
@@ -22,7 +24,7 @@ class _quotepageState extends State<quotepage> {
   TextEditingController HeightController = TextEditingController();
   TextEditingController additionalNeedController = TextEditingController();
   TextEditingController WeightController = TextEditingController();
-  
+
 
   String price = "not available ";
   String destinationType = 'Business';
@@ -32,8 +34,10 @@ class _quotepageState extends State<quotepage> {
   // FTL/LTL: From - to; facilitityType: Bussiness/ residential ; dimension (weight / unit) ; additional service (eg. need lift gate); commodity
   // FCL: from - to ; containertype: 20, 40, 45"; commodity
   //
-  
-  SingingCharacter _character = SingingCharacter.FTL;
+
+  SingingCharacter _ServiceTerm = SingingCharacter.FTL;
+ 
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,43 +46,48 @@ class _quotepageState extends State<quotepage> {
         body: Container(
       padding: EdgeInsets.all(30),
       child: SingleChildScrollView(
-
-        child: Column(
+          child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              children: <Widget>[
-                RadioListTile<SingingCharacter>(
-                  title: const Text('FTL/LTL'),
-                  value: SingingCharacter.FTL,
-                  groupValue: _character,
-                  onChanged: (SingingCharacter value) {
-                    setState(() {
-                      _character = value;
-                    });
-                  },
-                ),
-                RadioListTile<SingingCharacter>(
-                  title: const Text('FCL'),
-                  value: SingingCharacter.jefferson,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  RadioListTile<SingingCharacter>(
+                    title: const Text('FTL'),
+                    value: SingingCharacter.FTL,
+                    groupValue: _ServiceTerm,
+                    onChanged: (SingingCharacter value) {
+                      setState(() {
+                        _ServiceTerm = value;
+                      });
+                    },
+                  ),
+                  RadioListTile<SingingCharacter>(
+                    title: const Text('LTL'),
+                    value: SingingCharacter.LTL,
+                    groupValue: _ServiceTerm,
+                    onChanged: (SingingCharacter value) {
+                      setState(() {
+                        _ServiceTerm = value;
+                      });
+                    },
+                  ),
+                  RadioListTile<SingingCharacter>(
+                    title: const Text('FCL'),
+                    value: SingingCharacter.FCL,
+                    groupValue: _ServiceTerm,
+                    onChanged: (SingingCharacter value) {
+                      setState(() {
+                        _ServiceTerm = value;
+                      });
+                    },
+                  ),
+                ],
+              )
+          ),
 
-                  groupValue: _character,
-                  onChanged: (SingingCharacter value) {
-                    setState(() {
-                      _character = value;
-
-                    });
-                  },
-                ),
-              ],
-            )
-            ),
-      _character == SingingCharacter.FTL ?
-          ListView(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
-            children: [
+          _ServiceTerm == SingingCharacter.FTL ?
+            ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
@@ -86,112 +95,115 @@ class _quotepageState extends State<quotepage> {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: "Commodity"),
                 ),
-    ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextField(
-                      controller: orgZipcodeController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "From",
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: orgZipcodeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "From",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: desZipcodeController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "To"),
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: DropdownButton(
+                    value: destinationType,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        destinationType = newValue;
+                        print(destinationType);
+                      });
+                    },
+                    items: <String>['Business', 'Residential']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: LengthController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Length")),
+                        ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextField(
-                      controller: desZipcodeController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: "To"),
-                    ),
-                  ),
-                  Container(
-                      padding: EdgeInsets.all(10),
-                      child: DropdownButton(
-                        value: destinationType,
-                        icon: const Icon(Icons.arrow_downward),
-                        iconSize: 24,
-                        onChanged: (String newValue) {
-                          setState(() {
-                            destinationType = newValue;
-                            print(destinationType);
-                          });
-                        },
-                        items: <String>['Business', 'Residential']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      )),
-                  Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 25,
-                            child: Container(
-                              padding: EdgeInsets.only(right:5),
-                              child: TextField(
-                                  controller: LengthController,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(), labelText: "Length")),
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: WidthController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Width")),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: HeightController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Height",
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 29,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 5),
+                            child: DropdownButton(
+                              value: desiredLengthUnit,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              onChanged: (String newSecondValue) {
+                                setState(() {
+                                  desiredLengthUnit = newSecondValue;
+                                });
+                              },
+                              items: <String>[
+                                "CM",
+                                "INCH"
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Container(
-                              padding: EdgeInsets.only(right:5),
-                              child: TextField(
-                                  controller: WidthController,
-                                  decoration: InputDecoration(
-                                      border: OutlineInputBorder(), labelText: "Width")),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Container(
-                              padding: EdgeInsets.only(right:5),
-                              child: TextField(
-                                  controller: HeightController,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: "Height",
-                                  )),
-                            ),
-                          ),
-                          Expanded(
-                              flex: 29,
-                              child: Container(
-                                padding: EdgeInsets.only(left:5),
-                                child: DropdownButton(
-                                  value: desiredLengthUnit,
-                                  icon: const Icon(Icons.arrow_downward),
-                                  iconSize: 24,
-                                  onChanged: (String newSecondValue) {
-                                    setState(() {
-                                      desiredLengthUnit = newSecondValue;
-                                    });
-                                  },
-                                  items: <String>["CM", "INCH"]
-                                      .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ))
-                        ],
-                      )),
+                          ))
+                    ],
+                  )),
               Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
                     children: [
                       Expanded(
                         flex: 80,
-
                         child: Container(
                           padding: EdgeInsets.only(right: 5),
                           child: TextField(
@@ -203,7 +215,7 @@ class _quotepageState extends State<quotepage> {
                         ),
                       ),
                       Expanded(
-                        flex:30,
+                        flex: 30,
                         child: Container(
                           padding: EdgeInsets.only(left: 5),
                           child: DropdownButton(
@@ -226,18 +238,18 @@ class _quotepageState extends State<quotepage> {
                         ),
                       )
                     ],
-                  )
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: additionalNeedController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText:
+                          "Enter Any Additional Need"
+                  ), // extra need (see email)
+                ),
               ),
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: TextField(
-                      controller: additionalNeedController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Enter Any Additional Need"), // extra need (see email)
-                    ),
-                  ),
-
               Container(
                   padding: EdgeInsets.all(10),
                   child: SizedBox(
@@ -246,20 +258,37 @@ class _quotepageState extends State<quotepage> {
                     child: RaisedButton(
                       child: Text("Confirm"),
                       onPressed: () {
+                        if (additionalNeedController.text.isEmpty){
+                          additionalNeedController.text = "No Additional Need";
+                        }
                         print(desZipcodeController.text.toString());
                         print(orgZipcodeController.text.toString());
+                        print(additionalNeedController.text.toString());
                         http
                             .get("http://10.0.2.2:5000/submit_FTL_quote/" +
-                            orgZipcodeController.text.toString() + "/" +
-                            desZipcodeController.text.toString() + "/" +
-                            AuthManager.email + "/" +
-                            itemDescriptionController.text.toString() + "/" +
-                            destinationType + "/" +
-                            LengthController.text.toString() +"/" +
-                            HeightController.text.toString() + "/" + 
-                            WeightController.text.toString() + "/" +
-                            desiredLengthUnit + desiredWeightUnit + additionalNeedController.text.toString()
-                        )
+                                orgZipcodeController.text.toString() +
+                                "/" +
+                                desZipcodeController.text.toString() +
+                                "/" +
+                                AuthManager.email +
+                                "/" +
+                                itemDescriptionController.text.toString() +
+                                "/" +
+                                destinationType +
+                                "/" +
+                                LengthController.text.toString() +
+                                "/" +
+                                HeightController.text.toString() +
+                                "/" +
+                                WidthController.text.toString() +
+                                "/" +
+                                WeightController.text.toString() +
+                                "/" +
+                                desiredLengthUnit.toString() +
+                                "/" +
+                                desiredWeightUnit.toString() +
+                                "/" +
+                                additionalNeedController.text.toString())
                             .then((res) {
                           print("Request success!");
                           print(res.body);
@@ -271,59 +300,263 @@ class _quotepageState extends State<quotepage> {
                       },
                     ),
                   )),
-
-
-            ]
-          ):
-      ListView(
-          shrinkWrap: true,
-          physics: ScrollPhysics(),
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: itemDescriptionController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "Commodity"),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: orgZipcodeController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "From",
+            ]):
+           _ServiceTerm == SingingCharacter.LTL ?
+          ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: itemDescriptionController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "Commodity"),
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: desZipcodeController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "To"),
-              ),
-            ),
-            Container(
+              Container(
                 padding: EdgeInsets.all(10),
-                child: DropdownButton(
-                  value: desiredContainerType,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  onChanged: (String newValue) {
-                    setState(() {
-                      desiredContainerType = newValue;
-                    });
-                  },
-                  items: <String>['20 GP', '40 GP' ,'45 GP']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                )),
+                child: TextField(
+                  controller: orgZipcodeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "From",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: desZipcodeController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "To"),
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: DropdownButton(
+                    value: destinationType,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        destinationType = newValue;
+                        print(destinationType);
+                      });
+                    },
+                    items: <String>['Business', 'Residential']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: LengthController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Length")),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: WidthController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Width")),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 25,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: HeightController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Height",
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                          flex: 29,
+                          child: Container(
+                            padding: EdgeInsets.only(left: 5),
+                            child: DropdownButton(
+                              value: desiredLengthUnit,
+                              icon: const Icon(Icons.arrow_downward),
+                              iconSize: 24,
+                              onChanged: (String newSecondValue) {
+                                setState(() {
+                                  desiredLengthUnit = newSecondValue;
+                                });
+                              },
+                              items: <String>[
+                                "CM",
+                                "INCH"
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ))
+                    ],
+                  )),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 80,
+                        child: Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: TextField(
+                              controller: WeightController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: "Weight",
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 30,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 5),
+                          child: DropdownButton(
+                            value: desiredWeightUnit,
+                            icon: const Icon(Icons.arrow_downward),
+                            iconSize: 24,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                desiredWeightUnit = newValue;
+                              });
+                            },
+                            items: <String>["KG", "LBS"]
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      )
+                    ],
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: additionalNeedController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText:
+                          "Enter Any Additional Need"), // extra need (see email)
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: SizedBox(
+                    width: 200,
+                    // height: 200,
+                    child: RaisedButton(
+                      child: Text("Confirm"),
+                      onPressed: () {
+                        print(desZipcodeController.text.toString());
+                        print(orgZipcodeController.text.toString());
+                        http
+                            .get("http://10.0.2.2:5000/submit_LTL_quote/" +
+                                orgZipcodeController.text.toString() +
+                                "/" +
+                                desZipcodeController.text.toString() +
+                                "/" +
+                                AuthManager.email +
+                                "/" +
+                                itemDescriptionController.text.toString() +
+                                "/" +
+                                destinationType +
+                                "/" +
+                                LengthController.text.toString() +
+                                "/" +
+                                HeightController.text.toString() +
+                                "/" +
+                                WidthController.text.toString() +
+                                "/" +
+                                WeightController.text.toString() +
+                                "/" +
+                                desiredLengthUnit.toString() +
+                                "/" +
+                                desiredWeightUnit.toString() +
+                                "/" +
+                                additionalNeedController.text.toString())
+                            .then((res) {
+                          print("Request success!");
+                          print(res.body);
+                          setState(() {});
+                        }).catchError((error) {
+                          print("Request failed!");
+                          print(error);
+                        });
+                      },
+                    ),
+                  )),
+            ]):
+            ListView(shrinkWrap: true, physics: ScrollPhysics(), children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: itemDescriptionController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "Commodity"),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: orgZipcodeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "From",
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: desZipcodeController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: "To"),
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: DropdownButton(
+                    value: desiredContainerType,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        desiredContainerType = newValue;
+                      });
+                    },
+                    items: <String>['20 GP', '40 GP', '45 GP']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  )),
 //            Container(
 //                padding: EdgeInsets.all(10),
 //                child: Row(
@@ -372,48 +605,48 @@ class _quotepageState extends State<quotepage> {
 //                        ))
 //                  ],
 //                )),
-            Container(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: additionalNeedController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Additional Need"), // extra need (see email)
-              ),
-            ),
-            Container(
+              Container(
                 padding: EdgeInsets.all(10),
-                child: SizedBox(
-                  width: 200,
-                  // height: 200,
-                  child: RaisedButton(
-                    child: Text("Confirm"),
-                    onPressed: () {
-                      print(desZipcodeController.text.toString());
-                      print(orgZipcodeController.text.toString());
-                      http
-                          .get("http://10.0.2.2:5000/submit_FCL_quote/" +
-                          orgZipcodeController.text.toString() + "/" +
-                          desZipcodeController.text.toString() + "/" +
-                          AuthManager.email + "/" +
-                          itemDescriptionController.text.toString() + "/" +
-                          desiredContainerType
-                      )
-                          .then((res) {
-                        print("Request success!");
-                        print(res.body);
-                        setState(() {});
-                      }).catchError((error) {
-                        print("Request failed!");
-                        print(error);
-                      });
-                    },
-                  ),
-                )),
-
-
-          ]
-      ),
+                child: TextField(
+                  controller: additionalNeedController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Additional Need"), // extra need (see email)
+                ),
+              ),
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: SizedBox(
+                    width: 200,
+                    // height: 200,
+                    child: RaisedButton(
+                      child: Text("Confirm"),
+                      onPressed: () {
+                        print(desZipcodeController.text.toString());
+                        print(orgZipcodeController.text.toString());
+                        http
+                            .get("http://10.0.2.2:5000/submit_ServiceTerm_quote/" +
+                                orgZipcodeController.text.toString() +
+                                "/" +
+                                desZipcodeController.text.toString() +
+                                "/" +
+                                AuthManager.email +
+                                "/" +
+                                itemDescriptionController.text.toString() +
+                                "/" +
+                                desiredContainerType)
+                            .then((res) {
+                          print("Request success!");
+                          print(res.body);
+                          setState(() {});
+                        }).catchError((error) {
+                          print("Request failed!");
+                          print(error);
+                        });
+                      },
+                    ),
+                  )),
+            ]),
 //          Container(
 //              padding: EdgeInsets.all(10),
 //              width: 300,
@@ -431,12 +664,14 @@ class _quotepageState extends State<quotepage> {
 
           Container(
             child: Text("Quote has been requested..."
-               // price
-            ),
+                // price
+                ),
           )
         ],
-        )
-      ),
-    ));
+    )
+    )
+    )
+          );
+
   }
 }
