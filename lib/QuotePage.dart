@@ -24,6 +24,9 @@ class _quotepageState extends State<quotepage> {
   TextEditingController HeightController = TextEditingController();
   TextEditingController additionalNeedController = TextEditingController();
   TextEditingController WeightController = TextEditingController();
+  TextEditingController volumeController = TextEditingController();
+  TextEditingController qtyController = TextEditingController();
+  TextEditingController numdesiredcontainertypeController = TextEditingController();
 
 
   String price = "not available ";
@@ -31,6 +34,8 @@ class _quotepageState extends State<quotepage> {
   String desiredLengthUnit = 'CM';
   String desiredContainerType = "20 GP";
   String desiredWeightUnit = "KG";
+  String volumeUnit = "m3";
+  String package = "Pallet";
   // FTL/LTL: From - to; facilitityType: Bussiness/ residential ; dimension (weight / unit) ; additional service (eg. need lift gate); commodity
   // FCL: from - to ; containertype: 20, 40, 45"; commodity
   //
@@ -116,24 +121,45 @@ class _quotepageState extends State<quotepage> {
               ),
               Container(
                   padding: EdgeInsets.all(10),
-                  child: DropdownButton(
-                    value: destinationType,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        destinationType = newValue;
-                        print(destinationType);
-                      });
-                    },
-                    items: <String>['Business', 'Residential']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )),
+                  child: Row(
+                      children: [
+                        Expanded(
+                          flex:30,
+                          child: Container(
+                            child: Text(
+                              "Please Choose the Destination Type"
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex:30,
+                          child: DropdownButton(
+                            value: destinationType,
+                            icon: const Icon(Icons.arrow_downward),
+                            iconSize: 24,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                destinationType = newValue;
+                                print(destinationType);
+                              });
+                            },
+                            items: <String>['Business', 'Residential']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        )
+
+
+
+
+                      ],
+
+                  )
+                  ),
               Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
@@ -198,6 +224,87 @@ class _quotepageState extends State<quotepage> {
                           ))
                     ],
                   )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                  Expanded(
+                  flex:74,
+                  child: TextField(
+                      controller: qtyController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Quantity",
+                      )
+                  ),
+                ),
+                  Expanded(flex: 30,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 5),
+                      child: DropdownButton(
+                        value: package,
+                        icon: const Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            package = newValue;
+                          });
+                        },
+                        items: <String>[
+                          "Pallet",
+                          "Carton"
+                        ]
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),)
+                  ]
+              )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex:74,
+                      child: TextField(
+                          controller: volumeController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Volume",
+                          )
+                      ),
+                    ),
+                    Expanded(flex: 30,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 5),
+                        child: DropdownButton(
+                          value: volumeUnit,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              volumeUnit = newValue;
+                            });
+                          },
+                          items: <String>[
+                            "m3",
+                            "ft3"
+                          ]
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),)
+                  ],
+                ),
+              ),
               Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
@@ -288,6 +395,14 @@ class _quotepageState extends State<quotepage> {
                                 "/" +
                                 desiredWeightUnit.toString() +
                                 "/" +
+                                qtyController.text.toString() +
+                                "/" +
+                                package +
+                                '/' +
+                                volumeController.text.toString() +
+                                "/" +
+                                volumeUnit +
+                                "/" +
                                 additionalNeedController.text.toString())
                             .then((res) {
                           print("Request success!");
@@ -329,26 +444,47 @@ class _quotepageState extends State<quotepage> {
                       border: OutlineInputBorder(), labelText: "To"),
                 ),
               ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  child: DropdownButton(
-                    value: destinationType,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        destinationType = newValue;
-                        print(destinationType);
-                      });
-                    },
-                    items: <String>['Business', 'Residential']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  )),
+            Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex:30,
+                      child: Container(
+                        child: Text(
+                            "Please Choose the Destination Type"
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex:30,
+                      child: DropdownButton(
+                        value: destinationType,
+                        icon: const Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        onChanged: (String newValue) {
+                          setState(() {
+                            destinationType = newValue;
+                            print(destinationType);
+                          });
+                        },
+                        items: <String>['Business', 'Residential']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    )
+
+
+
+
+                  ],
+
+                )
+            ),
               Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
@@ -413,6 +549,87 @@ class _quotepageState extends State<quotepage> {
                           ))
                     ],
                   )),
+            Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                    children: [
+                      Expanded(
+                        flex:74,
+                        child: TextField(
+                            controller: qtyController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Quantity",
+                            )
+                        ),
+                      ),
+                      Expanded(flex: 30,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 5),
+                          child: DropdownButton(
+                            value: package,
+                            icon: const Icon(Icons.arrow_downward),
+                            iconSize: 24,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                package = newValue;
+                              });
+                            },
+                            items: <String>[
+                              "Pallet",
+                              "Carton"
+                            ]
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),)
+                    ]
+                )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex:74,
+                      child: TextField(
+                          controller: volumeController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: "Volume",
+                      )
+              ),
+                    ),
+                    Expanded(flex: 30,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 5),
+                        child: DropdownButton(
+                          value: volumeUnit,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              volumeUnit = newValue;
+                            });
+                          },
+                          items: <String>[
+                            "m3",
+                            "ft3"
+                          ]
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),)
+                  ],
+                ),
+              ),
               Container(
                   padding: EdgeInsets.all(10),
                   child: Row(
@@ -540,22 +757,40 @@ class _quotepageState extends State<quotepage> {
               ),
               Container(
                   padding: EdgeInsets.all(10),
-                  child: DropdownButton(
-                    value: desiredContainerType,
-                    icon: const Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    onChanged: (String newValue) {
-                      setState(() {
-                        desiredContainerType = newValue;
-                      });
-                    },
-                    items: <String>['20 GP', '40 GP', '45 GP']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex:73,
+                        child: Container(
+                          padding: EdgeInsets.only(right:8),
+                          child: TextField(
+                            controller:numdesiredcontainertypeController,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(), labelText: "Number of")
+                          ),
+                        )
+                      ),
+                      Expanded(
+                        flex:23,
+                        child: DropdownButton(
+                          value: desiredContainerType,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          onChanged: (String newValue) {
+                            setState(() {
+                              desiredContainerType = newValue;
+                            });
+                          },
+                          items: <String>['20 GP', '40 GP', '45 GP']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   )),
 //            Container(
 //                padding: EdgeInsets.all(10),
@@ -625,7 +860,7 @@ class _quotepageState extends State<quotepage> {
                         print(desZipcodeController.text.toString());
                         print(orgZipcodeController.text.toString());
                         http
-                            .get("http://10.0.2.2:5000/submit_ServiceTerm_quote/" +
+                            .get("http://10.0.2.2:5000/submit_FCL_quote/" +
                                 orgZipcodeController.text.toString() +
                                 "/" +
                                 desZipcodeController.text.toString() +
@@ -634,7 +869,9 @@ class _quotepageState extends State<quotepage> {
                                 "/" +
                                 itemDescriptionController.text.toString() +
                                 "/" +
-                                desiredContainerType)
+                                desiredContainerType + "/" +
+                            additionalNeedController.text.toString()
+                        )
                             .then((res) {
                           print("Request success!");
                           print(res.body);

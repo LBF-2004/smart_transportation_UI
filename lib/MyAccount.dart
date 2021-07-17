@@ -80,15 +80,34 @@ class _myaccountState extends State<myaccount> {
                     return AlertDialog(
                         title: Text("Quote Detail"),
                         content: SingleChildScrollView(
-                            child: ListBody(
+                            child:
+                            entries[index]["trucking_service"] == "FCL" ?
+                            ListBody(
                               children: [
+                                Text("Container Type: " + entries[index]["trucking_service"] + " " + entries[index]["container_type"]),
                                 Text("Origin City: " + entries[index]["org_city"]),
                                 Text("Destination: "+  entries[index]["des_city"]),
-                                Text("Container Count: " + entries[index]["container_count"]),
                                 Text("Item Description: " + entries[index]["item_description"]),
-                                Text("Result: " + entries[index]["result"].toString())
+                                Text("Result: " + "\$" + entries[index]["result"].toString()
+                                )
+                              ],
+                            ):
+                            ListBody(
+                              children: [
+                                Text("Container Type: " + entries[index]["trucking_service"] ),
+                                Text("Origin City: " + entries[index]["org_city"]),
+                                Text("Destination: "+  entries[index]["des_city"]),
+                                Text("Length: " + entries[index]["length"]),
+                                Text("Width: " + entries[index]["width"]),
+                                Text("Height: " + entries[index]["height"]),
+                                Text("Units: " + entries[index]["LWH_unit"] + ", " + entries[index]["weight_unit"]),
+                                Text("Item Description: " + entries[index]["item_description"]),
+                                Text("Additional Need: " + entries[index]["additional_need"]),
+                                Text("Result: " + "\$" + entries[index]["result"].toString()
+                                )
                               ],
                             )
+
                         )
                     );
                   }
