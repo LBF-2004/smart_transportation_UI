@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'ServerURL.dart';
 
 
 final List<String> entries = <String>['A', 'B', 'C'];
@@ -39,7 +40,7 @@ class _myaccountState extends State<myaccount> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    http.get("http://10.0.2.2:5000" + "/" + "list_all_my_quotes" + "/" + AuthManager.email).then((res){
+    http.get(ServerURL.url + "/" + "list_all_my_quotes" + "/" + AuthManager.email).then((res){
       print("Request success!");
 
       print (res.body);
@@ -88,8 +89,9 @@ class _myaccountState extends State<myaccount> {
                                 Text("Origin City: " + entries[index]["org_city"]),
                                 Text("Destination: "+  entries[index]["des_city"]),
                                 Text("Item Description: " + entries[index]["item_description"]),
-                                Text("Result: " + "\$" + entries[index]["result"].toString()
-                                )
+                                Text("Result: " + "\$" + entries[index]["result"].toString()),
+
+
                               ],
                             ):
                             ListBody(
@@ -103,7 +105,9 @@ class _myaccountState extends State<myaccount> {
                                 Text("Units: " + entries[index]["LWH_unit"] + ", " + entries[index]["weight_unit"]),
                                 Text("Item Description: " + entries[index]["item_description"]),
                                 Text("Additional Need: " + entries[index]["additional_need"]),
-                                Text("Result: " + "\$" + entries[index]["result"].toString()
+                                Text("Result: " + "\$" + entries[index]["result"].toString()),
+                                Text(
+                                  "All Prices: " + entries[index]["list_prices"].toString()
                                 )
                               ],
                             )

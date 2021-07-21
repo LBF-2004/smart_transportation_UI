@@ -5,6 +5,7 @@ import 'QuotePage.dart';
 import 'HomePage.dart';
 import 'package:http/http.dart' as http;
 import 'AuthManager.dart';
+import 'ServerURL.dart';
 
 class login extends StatefulWidget {
   @override
@@ -97,7 +98,7 @@ class _loginState extends State<login> {
                     onPressed: () {
                       http
                           .get(
-                              "http://10.0.2.2:5000/login/" +
+                          ServerURL.url + "/login/" +
                                   emailcontroller.text.toString() +
                                   "/" +
                                   passwordcontroller.text.toString())

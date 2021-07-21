@@ -100,7 +100,7 @@ class _portpageState extends State<portpage> {
                           print (desZipcodeController.text.toString());
                           print (orgZipcodeController.text.toString());
                           print (numcodeController.text.toString());
-                          http.get("http://10.0.2.2:5000/get_price/" +
+                          http.get("http://52.53.220.182:5000/get_price/" +
                               orgZipcodeController.text.toString() + "/" + desZipcodeController.text.toString() + "/" +
                               numcodeController.text.toString())
                               .then((res){

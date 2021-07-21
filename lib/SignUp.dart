@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'LogIn.dart';
 import 'package:http/http.dart' as http;
+import 'ServerURL.dart';
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
@@ -164,7 +165,7 @@ class _signupState extends State<signup> {
                               child: Text("Confirm"),
                               onPressed: (){
                                // Navigator.push(context, MaterialPageRoute(builder:(context) => login()));
-                                http.get("http://10.0.2.2:5000/signup/"
+                                http.get(ServerURL.url + "/signup/"
                                     + emailController.text.toString()
                                     + "/" + passwordController.text.toString()
                                     + "/" + firstNameController.text.toString()

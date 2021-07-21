@@ -30,10 +30,10 @@ class LogoScreen extends StatelessWidget {
                 Expanded(
                     flex: 50,
                     child: Container(
-                        padding:EdgeInsets.all(100),
+                        padding:EdgeInsets.all(80),
                         child: Center(
                           child: CircleAvatar(
-                            radius:200,
+                            radius:250,
                             backgroundImage: NetworkImage("https://img1.wsimg.com/isteam/ip/657a3946-fd3e-43d8-8698-90c8bee41337/logo/89ea982e-1bf3-4bc2-bd37-4bcfa9d8b20b.png/:/rs=h:564/qt=q:95"),
                           ),
                         )
